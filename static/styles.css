@@ -1,0 +1,17 @@
+.table{
+    border: 1px solid;
+    border-collapse: collapse;
+    position: relative;
+    width: 100%;
+}
+
+.table th{
+    border: 1px solid;
+    padding: 5px;
+    background-color: rgb(169, 169, 255);
+    text-emphasis-color: white;
+}
+.table td{
+    border: 1px solid;
+    padding: 5px;
+}
