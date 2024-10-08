@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product, ProductItem, ProductAttribute, ProductAttributeValue
+from .models import Product, ProductItem, ProductAttribute, ProductAttributeValue, Fournisseur
 
 class ContactUsForm(forms.Form):
     name = forms.CharField(required=False)
@@ -25,4 +25,9 @@ class ProductAttributeForm(forms.ModelForm):
 class ProductAttributeValueForm(forms.ModelForm):
     class Meta:
         model = ProductAttributeValue
+        fields = '__all__'
+
+class FournisseurForm(forms.ModelForm):
+    class Meta:
+        model = Fournisseur
         fields = '__all__'

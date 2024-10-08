@@ -3,6 +3,7 @@ from .models import Product
 from .models import ProductItem
 from .models import ProductAttribute
 from .models import ProductAttributeValue
+from .models import Fournisseur
 
 def set_product_online(modeladmin, request, queryset):
     queryset.update(status=1)
@@ -33,3 +34,4 @@ admin.site.register(Product, ProductAdmin)
 admin.site.register(ProductItem)
 admin.site.register(ProductAttribute)
 admin.site.register(ProductAttributeValue)
+admin.site.register(Fournisseur)
