@@ -32,7 +32,8 @@ class Product(models.Model):
     price_ht      = models.DecimalField(max_digits=8, decimal_places=2,  null=True, blank=True, verbose_name="Prix unitaire HT")
     price_ttc     = models.DecimalField(max_digits=8, decimal_places=2,  null=True, blank=True, verbose_name="Prix unitaire TTC")
     status        = models.SmallIntegerField(choices=PRODUCT_STATUS, default=0)
-    date_creation =  models.DateTimeField(blank=True, verbose_name="Date création") 
+    date_creation = models.DateTimeField(blank=True, verbose_name="Date création")
+    stock = models.IntegerField(default=0,verbose_name="Stock")
     
     def __str__(self):
         return "{0} {1}".format(self.name, self.code)
@@ -81,3 +82,20 @@ class ProductAttributeValue(models.Model):
      
     def __str__(self):
         return "{0} [{1}]".format(self.value, self.product_attribute)
+    
+
+class Fournisseur(models.Model):
+
+    class Meta:
+        verbose_name = "Fournisseur"
+        ordering = ['name']
+
+    name = models.CharField(max_length=100)
+    mail = models.CharField(max_length=150)
+    adresse = models.CharField(max_length=150)
+
+class PrixProduct(models.Model):
+
+    product_id = models.ForeignKey('Product', verbose_name="Produit", on_delete=models.CASCADE)
+    fournisseur_id = models.ForeignKey('Fournisseur', verbose_name="Fournisseur", on_delete=models.CASCADE)
+    prix = models.DecimalField(default=0, decimal_places=2, max_digits=10)
