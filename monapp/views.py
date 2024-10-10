@@ -1,6 +1,6 @@
 from typing import Any
 from django.shortcuts import render, redirect
-from .models import Product, ProductItem, ProductAttribute, ProductAttributeValue
+from .models import Product, ProductItem, ProductAttribute, ProductAttributeValue, PrixProduct, Fournisseur
 from .forms import ContactUsForm, ProductForm, ProductItemForm, ProductAttributeForm, ProductAttributeValueForm
 # Create your views here.
 from django.http import HttpResponse
@@ -28,6 +28,8 @@ class ProductDetailView(DetailView):
   def get_context_data(self, **kwargs):
     context = super(ProductDetailView, self).get_context_data(**kwargs)
     context['titremenu'] = "Détail produit"
+    print(PrixProduct.objects.select_related('fournisseur_id').filter(product_id=self.object.id).values())
+    context['referencementFournisseur'] = PrixProduct.objects.select_related('fournisseur_id').filter(product_id=self.object.id)
     return context
 
 class ProductListView(ListView):
