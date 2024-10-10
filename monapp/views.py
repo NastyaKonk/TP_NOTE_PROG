@@ -341,8 +341,19 @@ class FournisseurCreateView(CreateView):
   form_class = FournisseurForm
   template_name = "monapp/new_fournisseur.html"
   def form_valid(self, form: BaseModelForm) -> HttpResponse:
-    product = form.save()
+    fournisseur = form.save()
     return redirect('fournisseur-detail', fournisseur.id)
+
+def FournisseurCreate(request):
+  if request.method == 'POST':
+    form = FournisseurForm(request.POST)
+    if form.is_valid():
+      fournisseur = form.save()
+      return redirect('fournisseur-detail', fournisseur.id)
+  else:
+    form = FournisseurForm()
+
+  return render(request, "monapp/new_fournisseur.html", {'form': form})
 
 @method_decorator(login_required, name='dispatch')
 class FournisseurUpdateView(UpdateView):
