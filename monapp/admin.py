@@ -1,9 +1,5 @@
 from django.contrib import admin
-from .models import Product
-from .models import ProductItem
-from .models import ProductAttribute
-from .models import ProductAttributeValue
-from .models import Fournisseur
+from .models import Product, ProductItem, ProductAttribute, ProductAttributeValue, Fournisseur, PrixProduct
 
 def set_product_online(modeladmin, request, queryset):
     queryset.update(status=1)
@@ -34,4 +30,5 @@ admin.site.register(Product, ProductAdmin)
 admin.site.register(ProductItem)
 admin.site.register(ProductAttribute)
 admin.site.register(ProductAttributeValue)
+admin.site.register(PrixProduct)
 admin.site.register(Fournisseur)

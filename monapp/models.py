@@ -95,7 +95,12 @@ class Fournisseur(models.Model):
     adresse = models.CharField(max_length=150)
 
 class PrixProduct(models.Model):
+    class Meta:
+        verbose_name = "Referencement Fournisseur"
 
     product_id = models.ForeignKey('Product', verbose_name="Produit", on_delete=models.CASCADE)
     fournisseur_id = models.ForeignKey('Fournisseur', verbose_name="Fournisseur", on_delete=models.CASCADE)
     prix = models.DecimalField(default=0, decimal_places=2, max_digits=10)
+
+    def __str__(self):
+        return "{0} {1} {2}".format(self.product_id, self.fournisseur_id, self.prix)

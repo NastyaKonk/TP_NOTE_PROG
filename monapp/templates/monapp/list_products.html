@@ -9,43 +9,45 @@ Mon application DJANGO
 {% endblock %}
 
 {% block contenu %}
-        <table class="table">
-            <thead>
-                <th>Nom</th>
-                <th>Code</th>
-                <th>Prix HT</th>
-                <th>Prix TTC</th>
-                <th>Date Création</th>
-            </thead>
-            <tbody>
-                {% for prdct in products %}
-                <tr>
-                    <td>{{ prdct.name }} </td>
-                    <td>{{ prdct.code }} </td>
-                    <td>{{ prdct.price_ht }} </td>
-                    <td>{{ prdct.price_ttc }} </td>
-                    <td>{{ prdct.date_creation }} </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <p>
-            J'ai
-            {% if prdcts|length < 5 %}
-            peu de
-            {% elif prdcts|length < 10 %}
-            quelques
-            {% else %}
-            beaucoup de
-            {% endif %}
-            produits préférés.
-        </p>
+<table class="table">
+    <thead>
+        <th>Nom</th>
+        <th>Code</th>
+        <th>Prix HT</th>
+        <th>Prix TTC</th>
+        <th>Date Création</th>
+        <th>Stock</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        {% for prdct in products %}
+        <tr>
+            <td>{{ prdct.name }}</td>
+            <td>{{ prdct.code }}</td>
+            <td>{{ prdct.price_ht }}</td>
+            <td>{{ prdct.price_ttc }}</td>
+            <td>{{ prdct.date_creation }}</td>
+            <td>{{ prdct.stock }}</td>
+            <td>
+                <a href="{% url 'product-detail' prdct.id %}" class="btn btn-primary mt-2">Détails</a>
+                <a href="{% url 'product-update' prdct.id %}" class="btn btn-warning mt-2">Modifier</a>
+                <a href="{% url 'product-delete' prdct.id %}" class="btn btn-danger mt-2">Supprimer</a>
+            </td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p>
+    J'ai
+    {% if prdcts|length < 5 %} peu de {% elif prdcts|length < 10 %} quelques {% else %} beaucoup de {% endif %} produits
+        préférés. </p>
         <a href="{% url 'product-add' %}">Créer un nouveau produit</a>
-    <!-- Barre de recherche -->
-<p class="lead mb-3 ml-0">Rechercher un élément...</p>
-<form method="GET" action="">
-<input class="form-control" type="text" name="search" placeholder="Tapez ici votre recherche"
-    value="{{ request.GET.search }}">
-    <button type="submit" class="btn btn-success mt-2">Rechercher</button>
-</form>
-{% endblock %}
+        <!-- Barre de recherche -->
+        <p class="lead mb-3 ml-0">Rechercher un élément...</p>
+        <form method="GET" action="">
+            <input class="form-control" type="text" name="search" placeholder="Tapez ici votre recherche"
+                value="{{ request.GET.search }}">
+            <button type="submit" class="btn btn-success mt-2">Rechercher</button>
+        </form>
+        {% endblock %}
