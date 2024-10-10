@@ -1,0 +1,42 @@
+{% extends 'monapp/base.html' %}
+
+{% block title %}
+Mon application DJANGO
+{% endblock %}
+
+{% block menu %}
+<h1>Liste des fournisseurs</h1>
+{% endblock %}
+
+{% block contenu %}
+<table class="table">
+    <thead>
+        <th>Nom</th>
+        <th>Mail</th>
+        <th>Adresse</th>
+        <th>Action</th>
+    </thead>
+    <tbody>
+        {% for fournisseur in fournisseurs %}
+        <tr>
+            <td>{{ fournisseur.name}}</td>
+            <td>{{ fournisseur.mail}}</td>
+            <td>{{ fournisseur.adresse}}</td>
+            <td>
+                <a href="{% url 'fournisseur-detail' fournisseur.id %}" class="btn btn-primary mt-2">Détails</a>
+                <a href="{% url 'fournisseur-update' fournisseur.id %}" class="btn btn-warning mt-2">Modifier</a>
+                <a href="{% url 'fournisseur-delete' fournisseur.id %}" class="btn btn-danger mt-2">Supprimer</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'fournisseur-add' %}">Créer un nouveau fournisseur</a>
+<!-- Barre de recherche -->
+<p class="lead mb-3 ml-0">Rechercher un élément...</p>
+<form method="GET" action="">
+<input class="form-control" type="text" name="search" placeholder="Tapez ici votre recherche"
+    value="{{ request.GET.search }}">
+    <button type="submit" class="btn btn-success mt-2">Rechercher</button>
+</form>
+{% endblock %}

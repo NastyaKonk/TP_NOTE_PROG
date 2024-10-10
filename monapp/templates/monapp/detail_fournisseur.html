@@ -1,0 +1,15 @@
+{% extends 'monapp/base.html' %}
+{% block title %}
+Mon application DJANGO
+{% endblock %}
+{% block menu %}
+<h1>{{titremenu}}</h1>
+{% endblock %}
+{% block contenu %}
+<h2>{{ fournisseur.name }}</h2>
+<ul>
+    <li>Mail : {{ fournisseur.mail }}</li>
+    <li>Addresse : {{ fournisseur.addresse }}</li>
+</ul>
+<a href="{% url 'fournisseur-update' fournisseur.id %}">modifier</a>
+{% endblock %}

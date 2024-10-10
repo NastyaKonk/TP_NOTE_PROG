@@ -1,7 +1,7 @@
 from typing import Any
 from django.shortcuts import render, redirect
 from .models import Product, ProductItem, ProductAttribute, ProductAttributeValue, PrixProduct, Fournisseur
-from .forms import ContactUsForm, ProductForm, ProductItemForm, ProductAttributeForm, ProductAttributeValueForm
+from .forms import ContactUsForm, ProductForm, ProductItemForm, ProductAttributeForm, ProductAttributeValueForm, FournisseurForm
 # Create your views here.
 from django.http import HttpResponse
 from django.views.generic import TemplateView, CreateView, ListView, DetailView, UpdateView, DeleteView
@@ -303,9 +303,74 @@ class ProductAttributeValueUpdateView(UpdateView):
     product = form.save()
     return redirect('attributeValue-detail', product.id)
 
-#def home(request):
-#  string = request.GET['name']
-#  return HttpResponse("Bonjour %s!" % string)s
+
+################      FOURNISSEUR        ################
+
+class FournisseurDetailView(DetailView):
+  model = Fournisseur
+  template_name = "monapp/detail_fournisseur.html"
+  context_object_name = "fournisseur"
+
+  def get_context_data(self, **kwargs):
+    context = super(FournisseurDetailView, self).get_context_data(**kwargs)
+    context['titremenu'] = "Détail fournisseur"
+    return context
+
+class FournisseurListView(ListView):
+  model = Fournisseur
+  template_name = "monapp/list_fournisseurs.html"
+  context_object_name = "fournisseurs"
+
+  def get_queryset(self ):
+    # Surcouche pour filtrer les résultats en fonction de la recherche
+    # Récupérer le terme de recherche depuis la requête GET
+    query = self.request.GET.get('search')
+    if query:
+      # Filtre les produits par nom (insensible à la casse)
+      return Fournisseur.objects.filter(name__icontains=query)
+    
+    # Si aucun terme de recherche, retourner tous les produits
+    return Fournisseur.objects.all()
+
+  def get_context_data(self, **kwargs):
+    context = super(FournisseurListView, self).get_context_data(**kwargs)
+    context['titremenu'] = "Liste des fournisseurs"
+    return context
+
+@method_decorator(login_required, name='dispatch')
+class FournisseurCreateView(CreateView):
+  model = Fournisseur
+  form_class = FournisseurForm
+  template_name = "monapp/new_fournisseur.html"
+  def form_valid(self, form: BaseModelForm) -> HttpResponse:
+    fournisseur = form.save()
+    return redirect('fournisseur-detail', fournisseur.id)
+
+def FournisseurCreate(request):
+  if request.method == 'POST':
+    form = FournisseurForm(request.POST)
+    if form.is_valid():
+      fournisseur = form.save()
+      return redirect('fournisseur-detail', fournisseur.id)
+  else:
+    form = FournisseurForm()
+
+  return render(request, "monapp/new_fournisseur.html", {'form': form})
+
+@method_decorator(login_required, name='dispatch')
+class FournisseurUpdateView(UpdateView):
+  model = Fournisseur
+  form_class = FournisseurForm
+  template_name = "monapp/update_fournisseur.html"
+  def form_valid(self, form: BaseModelForm) -> HttpResponse:
+    fournisseur = form.save()
+    return redirect('fournisseur-detail', fournisseur.id)
+
+@method_decorator(login_required, name='dispatch')
+class FournisseurDeleteView(DeleteView):
+  model = Fournisseur
+  template_name = "monapp/delete_fournisseur.html"
+  success_url = reverse_lazy('fournisseur-list')
 
 
 def ContactView(request):
