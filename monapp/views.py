@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView, CreateView, ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.urls import reverse_lazy
@@ -405,10 +406,31 @@ class OrderDetailView(DetailView):
 class OrderCreateView(CreateView):
   model = Order
   form_class = OrderForm
-  template_name = "monapp/new_Order.html"
+  template_name = "monapp/new_order.html"
   def form_valid(self, form: BaseModelForm) -> HttpResponse:
     order = form.save()
     return redirect('order-detail', order.id)
+  
+  def get_initial(self):
+    initial = super().get_initial()
+
+    product_id = self.request.GET.get('productId')
+    fournisseur_id = self.request.GET.get('fournisseurId')
+    prix = self.request.GET.get('prix')
+    
+    if product_id:
+      product = get_object_or_404(Product, pk = product_id)
+      initial['product_id'] = product
+
+    if fournisseur_id:
+      fournisseur = get_object_or_404(Fournisseur, pk = fournisseur_id)
+      initial['fournisseur_id'] = fournisseur
+
+    
+    initial['prix'] = prix
+
+    return initial
+
 
 @method_decorator(login_required, name='dispatch')
 class OrderUpdateView(UpdateView):
