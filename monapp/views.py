@@ -1,7 +1,7 @@
 from typing import Any
 from django.shortcuts import render, redirect
 from .models import Product, ProductItem, ProductAttribute, ProductAttributeValue, PrixProduct, Fournisseur, Order
-from .forms import ContactUsForm, ProductForm, ProductItemForm, ProductAttributeForm, ProductAttributeValueForm, FournisseurForm
+from .forms import ContactUsForm, OrderForm, ProductForm, ProductItemForm, ProductAttributeForm, ProductAttributeValueForm, FournisseurForm
 # Create your views here.
 from django.http import HttpResponse
 from django.views.generic import TemplateView, CreateView, ListView, DetailView, UpdateView, DeleteView
@@ -401,6 +401,29 @@ class OrderDetailView(DetailView):
     context['titremenu'] = "Détail commande"
     return context
 
+@method_decorator(login_required, name='dispatch')
+class OrderCreateView(CreateView):
+  model = Order
+  form_class = OrderForm
+  template_name = "monapp/new_Order.html"
+  def form_valid(self, form: BaseModelForm) -> HttpResponse:
+    order = form.save()
+    return redirect('order-detail', order.id)
+
+@method_decorator(login_required, name='dispatch')
+class OrderUpdateView(UpdateView):
+  model = Order
+  form_class = OrderForm
+  template_name = "monapp/update_order.html"
+  def form_valid(self, form: BaseModelForm) -> HttpResponse:
+    order = form.save()
+    return redirect('order-detail', order.id)
+
+@method_decorator(login_required, name='dispatch')
+class OrderDeleteView(DeleteView):
+  model = Order
+  template_name = "monapp/delete_order.html"
+  success_url = reverse_lazy('order-list')
 
 def ContactView(request):
   titreh1 = "Contact us !"
