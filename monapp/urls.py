@@ -32,6 +32,13 @@ urlpatterns = [
    path("fournisseur/add/", views.FournisseurCreate, name = "fournisseur-add"),
    path("fournisseur/<pk>/delete/",views.FournisseurDeleteView.as_view(), name="fournisseur-delete"),
    
+   path("order/list",views.OrderListView.as_view(), name="order-list"),
+   path("order/<pk>",views.OrderDetailView.as_view(), name="order-detail"),
+   path("order/<pk>/update/",views.OrderUpdateView.as_view(), name="order-update"),
+   path("order/add/", views.OrderCreateView.as_view(), name = "order-add"),
+   path("order/<pk>/delete/",views.OrderDeleteView.as_view(), name="order-delete"),
+
+
    #path("home", views.home, name="home"),
    path("contact", views.ContactView, name="contact"),
    path("about", views.AboutView.as_view(), name="about"),

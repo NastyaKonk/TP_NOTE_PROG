@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product, ProductItem, ProductAttribute, ProductAttributeValue, Fournisseur
+from .models import Order, Product, ProductItem, ProductAttribute, ProductAttributeValue, Fournisseur
 
 class ContactUsForm(forms.Form):
     name = forms.CharField(required=False)
@@ -31,3 +31,9 @@ class FournisseurForm(forms.ModelForm):
     class Meta:
         model = Fournisseur
         fields = '__all__'
+
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = '__all__'
+        exclude = ('status', )
