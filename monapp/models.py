@@ -8,6 +8,12 @@ PRODUCT_STATUS = (
     (2, 'Out of stock')              
 )
 
+ORDER_STATUS = (
+    (0, 'In preparation'),
+    (1, 'Passed'),
+    (2, 'Received')
+)
+
 # Create your models here.
 """
     Status : numero, libelle
@@ -113,5 +119,5 @@ class Order(models.Model):
     fournisseur_id = models.ForeignKey('Fournisseur', verbose_name="Fournisseur", on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0,verbose_name="quantity")
     prix = models.DecimalField(default=0, decimal_places=2, max_digits=10)
-
+    status = models.SmallIntegerField(choices = ORDER_STATUS, default=0)
 
