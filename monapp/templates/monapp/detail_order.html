@@ -1,0 +1,21 @@
+{% extends 'monapp/base.html' %}
+{% block title %}
+Mon application DJANGO
+{% endblock %}
+{% block menu %}
+<h1>{{titremenu}}</h1>
+{% endblock %}
+{% block contenu %}
+<h2>{{ order.name }}</h2>
+<ul>
+    <li>Produit : {{ order.product_id.name }}</li>
+    <li>Fournisseur : {{ order.fournisseur_id.name }}</li>
+    <li>Quantité: {{ order.quantity }}</li>
+    <li>Prix : {{ order.prix }}</li>
+    <li>Status : {{ order.status }}</li>
+
+</ul>
+<a href="{% url 'order-list' %}" class="btn btn-primary mt-2">Retour</a>
+<a href="{% url 'order-update' order.id %}" class="btn btn-warning mt-2">Modifier</a>
+<a href="{% url 'order-delete' order.id %}" class="btn btn-danger mt-2">Supprimer</a>
+{% endblock %}
