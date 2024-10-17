@@ -100,6 +100,9 @@ class Fournisseur(models.Model):
     mail = models.CharField(max_length=150)
     adresse = models.CharField(max_length=150)
 
+    def __str__(self):
+        return "{0}".format(self.name)
+
 class PrixProduct(models.Model):
     class Meta:
         verbose_name = "Referencement Fournisseur"
@@ -120,4 +123,5 @@ class Order(models.Model):
     quantity = models.IntegerField(default=0,verbose_name="quantity")
     prix = models.DecimalField(default=0, decimal_places=2, max_digits=10)
     status = models.SmallIntegerField(choices = ORDER_STATUS, default=0)
+    
 

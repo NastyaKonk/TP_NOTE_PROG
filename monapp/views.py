@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.urls import reverse_lazy
 from django.forms import BaseModelForm
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
@@ -28,7 +29,6 @@ class ProductDetailView(DetailView):
   def get_context_data(self, **kwargs):
     context = super(ProductDetailView, self).get_context_data(**kwargs)
     context['titremenu'] = "Détail produit"
-    print(PrixProduct.objects.select_related('fournisseur_id').filter(product_id=self.object.id).values())
     context['referencementFournisseur'] = PrixProduct.objects.select_related('fournisseur_id').filter(product_id=self.object.id)
     return context
 
@@ -375,12 +375,13 @@ class FournisseurDeleteView(DeleteView):
 
 ################      ORDER        ################
 
+@method_decorator(staff_member_required, name='dispatch')
 class OrderListView(ListView):
   model = Order
   template_name = "monapp/list_order.html"
   context_object_name = "orders"
 
-  def get_queryset(self ):
+  def get_queryset(self):
     query = self.request.GET.get('search')
     if query:
       return Order.objects.filter(name__icontains=query)
@@ -391,6 +392,7 @@ class OrderListView(ListView):
     context['titremenu'] = "Liste des commandes"
     return context
 
+@method_decorator(staff_member_required, name='dispatch')
 class OrderDetailView(DetailView):
   model = Order
   template_name = "monapp/detail_order.html"
@@ -405,12 +407,12 @@ class OrderDetailView(DetailView):
 class OrderCreateView(CreateView):
   model = Order
   form_class = OrderForm
-  template_name = "monapp/new_Order.html"
+  template_name = "monapp/new_order.html"
   def form_valid(self, form: BaseModelForm) -> HttpResponse:
     order = form.save()
     return redirect('order-detail', order.id)
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(staff_member_required, name='dispatch')
 class OrderUpdateView(UpdateView):
   model = Order
   form_class = OrderForm
@@ -419,7 +421,7 @@ class OrderUpdateView(UpdateView):
     order = form.save()
     return redirect('order-detail', order.id)
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(staff_member_required, name='dispatch')
 class OrderDeleteView(DeleteView):
   model = Order
   template_name = "monapp/delete_order.html"
