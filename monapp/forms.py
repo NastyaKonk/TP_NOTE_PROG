@@ -1,5 +1,5 @@
 from django import forms
-from .models import Order, Product, ProductItem, ProductAttribute, ProductAttributeValue, Fournisseur
+from .models import Order, Product, ProductItem, ProductAttribute, ProductAttributeValue, Fournisseur, PrixProduct
 
 class ContactUsForm(forms.Form):
     name = forms.CharField(required=False)
@@ -43,3 +43,8 @@ class OrderForm(forms.ModelForm):
         self.fields['product_id'].widget.attrs['readonly'] = True
         self.fields['fournisseur_id'].widget.attrs['readonly'] = True
         self.fields['prix'].widget.attrs['readonly'] = True
+
+class PrixProductForm(forms.ModelForm):
+    class Meta:
+        model = PrixProduct
+        fields = '__all__'

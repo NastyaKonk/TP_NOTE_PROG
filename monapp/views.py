@@ -1,7 +1,7 @@
 from typing import Any
 from django.shortcuts import render, redirect
 from .models import Product, ProductItem, ProductAttribute, ProductAttributeValue, PrixProduct, Fournisseur, Order
-from .forms import ContactUsForm, OrderForm, ProductForm, ProductItemForm, ProductAttributeForm, ProductAttributeValueForm, FournisseurForm
+from .forms import ContactUsForm, OrderForm, ProductForm, ProductItemForm, ProductAttributeForm, ProductAttributeValueForm, FournisseurForm, PrixProductForm
 # Create your views here.
 from django.http import HttpResponse
 from django.views.generic import TemplateView, CreateView, ListView, DetailView, UpdateView, DeleteView
@@ -402,7 +402,7 @@ class OrderDetailView(DetailView):
             order.save()
         elif order.status == 1:
             order.status = 2
-            prdct.stock += 1
+            prdct.stock += order.quantity
             order.save()
             prdct.save()
 
@@ -452,6 +452,43 @@ class OrderDeleteView(DeleteView):
   model = Order
   template_name = "monapp/delete_order.html"
   success_url = reverse_lazy('order-list')
+
+################      PrixProduct        ################
+
+@method_decorator(login_required, name='dispatch')
+class ReferencementCreateView(CreateView):
+  model = PrixProduct
+  form_class = PrixProductForm
+  template_name = "monapp/new_referencement.html"
+  def form_valid(self, form: BaseModelForm) -> HttpResponse:
+    ref = form.save()
+    return redirect('product-detail', ref.product_id.id)
+  
+  def get_initial(self):
+    initial = super().get_initial()
+    product_id = self.request.GET.get('productId')
+    
+    if product_id:
+      product = get_object_or_404(Product, pk = product_id)
+      initial['product_id'] = product
+
+    return initial
+
+
+@method_decorator(login_required, name='dispatch')
+class ReferencementUpdateView(UpdateView):
+  model = PrixProduct
+  form_class = PrixProductForm
+  template_name = "monapp/update_referencement.html"
+  def form_valid(self, form: BaseModelForm) -> HttpResponse:
+    ref = form.save()
+    return redirect('product-detail', ref.product_id.id)
+
+@method_decorator(staff_member_required, name='dispatch')
+class ReferencementDeleteView(DeleteView):
+  model = PrixProduct
+  template_name = "monapp/delete_referencement.html"
+  success_url = reverse_lazy('product-list')
 
 def ContactView(request):
   titreh1 = "Contact us !"

@@ -37,7 +37,10 @@ urlpatterns = [
    path("order/<pk>/update/",views.OrderUpdateView.as_view(), name="order-update"),
    path("order/add/", views.OrderCreateView.as_view(), name = "order-add"),
    path("order/<pk>/delete/",views.OrderDeleteView.as_view(), name="order-delete"),
-   path("order/<pk>/delete/",views.OrderDeleteView.as_view(), name="order-delete"),
+
+   path("referencement/<pk>/update/",views.ReferencementUpdateView.as_view(), name="referencement-update"),
+   path("referencement/add/", views.ReferencementCreateView.as_view(), name = "referencement-add"),
+   path("referencement/<pk>/delete/",views.ReferencementDeleteView.as_view(), name="referencement-delete"),
 
 
    #path("home", views.home, name="home"),

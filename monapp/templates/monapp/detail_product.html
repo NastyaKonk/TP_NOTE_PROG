@@ -31,9 +31,12 @@ Mon application DJANGO
         <tr>
             <td>{{ref.fournisseur_id.name}}</td>
             <td>{{ref.prix}}</td>
-            <td><a href="{% url 'order-add' %}?productId={{product.id}}&fournisseurId={{ref.fournisseur_id.id}}&prix={{ref.prix}}" class="btn btn-warning mt-2">Commander</a></td>
+            <td><a href="{% url 'order-add' %}?productId={{product.id}}&fournisseurId={{ref.fournisseur_id.id}}&prix={{ref.prix}}" class="btn btn-primary mt-2">Commander</a>
+            <a href="{% url 'referencement-update' ref.id %}" class="btn btn-warning mt-2">Modifier</a>
+            <a href="{% url 'referencement-delete' ref.id %}" class="btn btn-danger mt-2">Supprimer</a></td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+<a href="{% url 'referencement-add' %}?productId={{ product.id }}">Ajouter Fournisseur</a>
 {% endblock %}
