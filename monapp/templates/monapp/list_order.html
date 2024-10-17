@@ -20,7 +20,7 @@ Mon application DJANGO
         <tr>
             <td>{{ order.fournisseur_id.name }}</td>
             <td>{{ order.product_id.name }}</td>
-            <td></td>
+            <td>{{ order.quantity }}</td>
             <td>
                 <a href="{% url 'order-detail' order.id %}" class="btn btn-primary mt-2">Détails</a>
                 <a href="{% url 'order-update' order.id %}" class="btn btn-warning mt-2">Modifier</a>
@@ -29,7 +29,7 @@ Mon application DJANGO
         </tr>
         {% endfor %}
     </tbody>
-</table>
+</table><a href="{% url 'order-add' %}">Créer un nouveau produit</a>
 <!-- Barre de recherche -->
 <p class="lead mb-3 ml-0">Rechercher un élément...</p>
 <form method="GET" action="">

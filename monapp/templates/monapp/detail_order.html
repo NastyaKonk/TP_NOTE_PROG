@@ -12,7 +12,7 @@ Mon application DJANGO
     <li>Fournisseur : {{ order.fournisseur_id.name }}</li>
     <li>Quantité: {{ order.quantity }}</li>
     <li>Prix : {{ order.prix }}</li>
-    <li>Status : {{ order.status }}</li>
+    <li>Status : {{ order.get_status_display }}</li>
 
 </ul>
 <a href="{% url 'order-list' %}" class="btn btn-primary mt-2">Retour</a>
