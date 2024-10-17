@@ -6,15 +6,12 @@ Mon application DJANGO
 <h1>{{titremenu}}</h1>
 {% endblock %}
 {% block contenu %}
-<h2>{{ productattributeValue.name }}</h2>
+<h2>{{ productattributevalue.name }}</h2>
 <ul>
-    {% for value in values %}
-    <li>{{ value.value }} (Position: {{ value.position }})</li>
-    {% empty %}
-    <li>Aucune valeur disponible pour cet attribut.</li>
-    {% endfor %}
+    <li>Valeur : {{ productattributevalue.value }}</li>
+    <li>Potision : {{ productattributevalue.position}}</li>
 </ul>
 <a href="{% url 'attributeValue-list' %}" class="btn btn-primary mt-2">Retour</a>
-<a href="{% url 'attributeValue-update' productattributeValue.id %}" class="btn btn-warning mt-2">Modifier</a>
-<a href="{% url 'attributeValue-delete' productattributeValue.id %}" class="btn btn-danger mt-2">Supprimer</a>
+<a href="{% url 'attributeValue-update' productattributevalue.id %}" class="btn btn-warning mt-2">Modifier</a>
+<a href="{% url 'attributeValue-delete' productattributevalue.id %}" class="btn btn-danger mt-2">Supprimer</a>
 {% endblock %}
