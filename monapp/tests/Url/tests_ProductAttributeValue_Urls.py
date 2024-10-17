@@ -40,8 +40,7 @@ class ProductAttributeValueTestUrlResponses(TestCase):
 class ProductAttributeValueTestUrlResponsesWithParameters(TestCase):
     def setUp(self):
         self.attribute = ProductAttribute.objects.create(name="Couleur")
-        self.value = ProductAttributeValue.objects.create( value="Rouge",
-        product_attribute=self.attribute)
+        self.value = ProductAttributeValue.objects.create( value="Rouge", product_attribute=self.attribute)
     def test_detail_view_status_code(self):
         """
         Tester que l'URL des détails renvoie un statut 200 pour un ID valide
@@ -60,8 +59,8 @@ class ProductAttributeValueTestUrlResponsesWithParameters(TestCase):
 class ProductAttributeValueTestUrlResponsesWithParameters(TestCase):
     def setUp(self):
         self.attribute = ProductAttribute.objects.create(name="Couleur")
-        self.value = ProductAttributeValue.objects.create( value="Rouge",
-        product_attribute=self.attribute)
+        self.value = ProductAttributeValue.objects.create(value="Rouge", product_attribute=self.attribute)
+    
     def test_detail_view_status_code(self):
         """
         Tester que l'URL des détails renvoie un statut 200 pour un ID valide
@@ -69,6 +68,7 @@ class ProductAttributeValueTestUrlResponsesWithParameters(TestCase):
         url = reverse('attributeValue-detail', args=[self.value.id])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+        
     def test_detail_view_status_code_invalid_id(self):
         """
         Tester que l'URL des détails renvoie un statut 404 pour un ID invalide

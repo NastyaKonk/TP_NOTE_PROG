@@ -106,18 +106,6 @@ class ProductUpdateView(UpdateView):
     product = form.save()
     return redirect('product-detail', product.id)
 
-def band_delete(request, id):
-  prdct = Product.objects.get(id=id) # nécessaire pour GET et pour POST
-  
-  if request.method == 'POST':
-    # supprimer le produit de la base de données
-    prdct.delete()
-    # rediriger vers la liste des produit
-    return redirect('product-list')
-  
-  # pas besoin de « else » ici. Si c'est une demande GET, continuez simplement
-  return render(request, 'monapp/prodcut-delete.html', {'object': prdct})
-
 @method_decorator(login_required, name='dispatch')
 class ProductDeleteView(DeleteView):
   model = Product
@@ -280,13 +268,12 @@ class ProductAttributeValueListView(ListView):
 
 class ProductAttributeValueDetailView(DetailView):
   model = ProductAttributeValue
-  template_name = "monapp/detail_attributeValues.html"
+  template_name = "monapp/detail_attributeValue.html"
   context_object_name = "productattributevalue"
 
   def get_context_data(self, **kwargs):
     context = super(ProductAttributeValueDetailView, self).get_context_data(**kwargs)
     context['titremenu'] = "Détail attribut value"
-    context['values']=ProductAttributeValue.objects.filter(product_attribute=self.object).order_by('position')
     return context
 
 @method_decorator(login_required, name='dispatch')

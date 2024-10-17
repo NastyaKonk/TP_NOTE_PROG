@@ -6,8 +6,7 @@ class ProductAttributeValueModelTest(TestCase):
         # Créer un attribut produit à utiliser dans les tests
         self.attribute = ProductAttribute.objects.create(name="Couleur")
         # Créer une valeur pour cet attribut
-        self.value = ProductAttributeValue.objects.create(value="Vert",
-        product_attribute=self.attribute, position=1)
+        self.value = ProductAttributeValue.objects.create(value="Vert", product_attribute=self.attribute, position=1)
 
     def test_product_attribute_value_creation(self):
         """

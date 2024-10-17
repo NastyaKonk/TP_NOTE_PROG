@@ -45,7 +45,7 @@ class ProductAttributeValueDetailViewTest(TestCase):
         # Vérifie que le nom de la valeur est affiché
         self.assertContains(response, 'Violet')
         # Vérifie que l'attribut associé est affiché
-        self.assertContains(response, 'Couleur')
+        self.assertContains(response, 'Valeur')
 
 class ProductAttributeValueUpdateViewTest(TestCase):
     def setUp(self):
