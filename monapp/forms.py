@@ -37,3 +37,9 @@ class OrderForm(forms.ModelForm):
         model = Order
         fields = '__all__'
         exclude = ('status', )
+
+    def __init__(self, *args, **kwargs):
+        super(OrderForm, self).__init__(*args, **kwargs)
+        self.fields['product_id'].widget.attrs['readonly'] = True
+        self.fields['fournisseur_id'].widget.attrs['readonly'] = True
+        self.fields['prix'].widget.attrs['readonly'] = True

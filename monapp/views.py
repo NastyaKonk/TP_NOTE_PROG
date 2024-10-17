@@ -372,7 +372,7 @@ class OrderListView(ListView):
   def get_queryset(self):
     query = self.request.GET.get('search')
     if query:
-      return Order.objects.filter(name__icontains=query)
+      return Order.objects.filter(fournisseur_id__icontains=query)
     return Order.objects.all()
 
   def get_context_data(self, **kwargs):
@@ -389,8 +389,25 @@ class OrderDetailView(DetailView):
   def get_context_data(self, **kwargs):
     context = super(OrderDetailView, self).get_context_data(**kwargs)
     context['titremenu'] = "Détail commande"
+    order = self.get_object()
+    context['prix_total'] = order.prix * order.quantity
     return context
+  
+  def post(self, request, *args, **kwargs):
+        order = self.get_object()  # Get the order from the URL's kwargs
+        prdct = get_object_or_404(Product, id=order.product_id.id)
 
+        if order.status == 0:
+            order.status = 1
+            order.save()
+        elif order.status == 1:
+            order.status = 2
+            prdct.stock += 1
+            order.save()
+            prdct.save()
+
+        return redirect('order-detail', pk=order.pk)
+  
 @method_decorator(login_required, name='dispatch')
 class OrderCreateView(CreateView):
   model = Order

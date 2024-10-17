@@ -11,11 +11,23 @@ Mon application DJANGO
     <li>Produit : {{ order.product_id.name }}</li>
     <li>Fournisseur : {{ order.fournisseur_id.name }}</li>
     <li>Quantité: {{ order.quantity }}</li>
-    <li>Prix : {{ order.prix }}</li>
+    <li>Prix Unitaire : {{ order.prix }}</li>
+    <li>Prix : {{ prix_total }}</li>
     <li>Status : {{ order.get_status_display }}</li>
 
 </ul>
 <a href="{% url 'order-list' %}" class="btn btn-primary mt-2">Retour</a>
 <a href="{% url 'order-update' order.id %}" class="btn btn-warning mt-2">Modifier</a>
 <a href="{% url 'order-delete' order.id %}" class="btn btn-danger mt-2">Supprimer</a>
+
+<form action="" method="post" >
+    {% csrf_token %}
+    {% if order.status == 0 %}
+    <p>Changer le status:</p>
+    <button type="submit" class="btn btn-success mt-2">Passed</button>
+    {%elif order.status == 1%}
+    <p>Changer le status:</p>
+    <button type="submit" class="btn btn-success mt-2">Received</button>
+    {%endif%}
+</form>
 {% endblock %}
