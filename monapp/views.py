@@ -1,3 +1,4 @@
+from decimal import Decimal
 from typing import Any
 from django.shortcuts import render, redirect
 from .models import Product, ProductItem, ProductAttribute, ProductAttributeValue, PrixProduct, Fournisseur, Order
@@ -433,7 +434,7 @@ class OrderCreateView(CreateView):
       initial['fournisseur_id'] = fournisseur
 
     
-    initial['prix'] = prix
+    initial['prix'] = Decimal(prix.replace(',', '.'))
 
     return initial
 

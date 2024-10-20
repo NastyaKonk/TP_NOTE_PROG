@@ -9,7 +9,8 @@ Mon application DJANGO
 <h2>{{ fournisseur.name }}</h2>
 <ul>
     <li>Mail : {{ fournisseur.mail }}</li>
-    <li>Addresse : {{ fournisseur.addresse }}</li>
+    <li>Adresse : {{ fournisseur.adresse }}</li>
 </ul>
-<a href="{% url 'fournisseur-update' fournisseur.id %}">modifier</a>
+<a href="{% url 'fournisseur-list' %}" class="btn btn-primary mt-2">Retour</a>
+<a href="{% url 'fournisseur-update' fournisseur.id %}" class='btn btn-warning mt-2'>modifier</a>
 {% endblock %}
